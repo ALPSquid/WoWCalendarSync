@@ -1,0 +1,14 @@
+.idea/
+Builds/
+ReleaseMaterial/
+WorkingFiles/
+*Prototype/
+*data/
+[Nn]otes.txt
+*.ipynb
+*.code-workspace
+*.iml
+deploy.bat
+*credentials*.json
+token.pickle
+*options.ini
