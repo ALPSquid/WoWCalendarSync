@@ -109,7 +109,7 @@ class SyncClient(object):
                 combined_lines = "{" + combined_lines + "}"
             addon_data = lua.decode(combined_lines.replace("\\n", "\n"))
 
-        lookahead_days = addon_data["CalendarSyncDB"]["profiles"]["Default"]["lookahead_days"]
+        lookahead_days = addon_data["CalendarSyncDB"]["profiles"]["Default"]["lookaheadDays"]
         addon_calendars = addon_data["CalendarSyncDB"]["profiles"]["Default"]["calendars"]
         for calendar_name, addon_calendar_data in addon_calendars.items():
             print("Found in-game calendar: {0}".format(calendar_name))
