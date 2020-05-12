@@ -6,7 +6,7 @@ A combination AddOn and client that exports calendar events from World of Warcra
 2. [Requirements](#requirements)
 3. [Usage](#usage)
 4. [Config](#config)
-    4.1. [Google Calendar](#google-calendar)
+    * [Google Calendar](#google-calendar)
 5. [Creating a ServiceConnector](#creating-a-serviceconnector)
 
 ## Features
