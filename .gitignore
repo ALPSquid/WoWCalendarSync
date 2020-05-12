@@ -15,7 +15,7 @@ WorkingFiles/
 Prototype/
 data/
 
-deploy.bat
+deploy_addon.bat
 *credentials*.json
 *token.pickle
 *options.ini
