@@ -31,7 +31,7 @@ A combination AddOn and client that exports calendar events from World of Warcra
 ## Usage
 1. Copy the **CalendarSync** folder to **World of Warcraft\\\_retail_\Interface\AddOns** and run the game once for the calendar to sync. 
 2. In the **CalendarSyncClient** folder, update your **options.ini** file as described in the [Client Config](#client-config) section of this ReadMe.
-3. Run the **CalendarSyncClient.exe** (or sync_client.py if running from source). It will automatically watch the AddOn data file and sync when changes are detected.
+3. Run the **CalendarSyncClient.exe** (or sync_client.py from within the CalendarSyncClient folder if running from source). It will automatically watch the AddOn data file and sync when changes are detected.
 
 ## Client Config
 
