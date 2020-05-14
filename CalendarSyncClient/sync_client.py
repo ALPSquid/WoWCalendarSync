@@ -6,6 +6,7 @@ import threading
 import time
 from collections.abc import Sequence
 from datetime import datetime
+from sys import exit
 from typing import List
 
 import pytz
@@ -14,6 +15,8 @@ from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
 from service_connectors import ServiceConnector, AddonEvent
+
+VERSION = "1.0"
 
 logging.basicConfig(format="%(name)s:%(levelname)s: %(message)s", level=logging.WARNING)
 CONFIG_PATH = "options.ini"
@@ -41,6 +44,7 @@ class SyncClient(object):
 
         except (KeyError, configparser.NoSectionError, configparser.NoOptionError) as e:
             self.logger.error("No services enabled. Please set desired services in options.ini. See example_options for help.")
+            input()
             exit()
 
     def _load_service_connector(self, connector_name):
@@ -58,10 +62,12 @@ class SyncClient(object):
             if not os.path.exists(addon_data_file_path):
                 self.logger.error("""Addon save file not found: {0}.
                       Ensure options.ini is correct and you've run the AddOn at least once.""".format(addon_data_file_path))
+                input()
                 exit()
             return addon_data_file_path
         except (KeyError, configparser.NoSectionError, configparser.NoOptionError) as e:
             self.logger.error("Missing addon path in options.ini. See example_options for help.")
+            input()
             exit()
 
     def run_auto_update(self):

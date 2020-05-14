@@ -4,6 +4,7 @@ import os
 from abc import abstractmethod, ABCMeta
 from enum import IntEnum, unique, auto
 from pathlib import Path
+from sys import exit
 from typing import Any, NewType, Mapping, Sequence
 
 SERVICE_DATA_ROOT = "data/"
@@ -50,6 +51,7 @@ class ServiceConnector(metaclass=ABCMeta):
             return self.config[option]
         except (KeyError, configparser.NoSectionError, configparser.NoOptionError) as e:
             self.logger.error("{0} not found in service config, check options.ini. See example_options for help.".format(option, self.service_name))
+            input()
             exit()
 
     @abstractmethod
