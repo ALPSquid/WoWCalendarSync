@@ -10,6 +10,7 @@ __pycache__/
 *$py.class
 
 [Bb]uild*/
+dist/
 ReleaseMaterial/
 WorkingFiles/
 Prototype/
@@ -18,4 +19,4 @@ data/
 deploy_addon.bat
 *credentials*.json
 *token.pickle
-*options.ini
+options.ini
