@@ -35,18 +35,19 @@ local CALENDARSYNC_UI_CONFIG =
                     name = "How many days in advance to get events for:",
                     width = "full",
                     validate = function(info, val)
-                        if not tonumber(val) then
+                        local numberVal = tonumber(val)
+                        if not numberVal then
                             return "Number of days lookahead must be a number."
                         end
                         -- Cap it at something reasonable.
-                        if val < 1 or val > 150 then
+                        if numberVal < 1 or numberVal > 150 then
                             return "Number of days lookahead must be between 1 and 150 inclusive."
                         end
                         return true
                     end,
-                    get = function() return CalendarSync.db.profile.lookaheadDays end,
+                    get = function() return tostring(CalendarSync.db.profile.lookaheadDays) end,
                     set = function(info, val)
-                        CalendarSync.db.profile.lookaheadDays = val
+                        CalendarSync.db.profile.lookaheadDays = tonumber(val)
                     end,
                     order = 1.12
                 },

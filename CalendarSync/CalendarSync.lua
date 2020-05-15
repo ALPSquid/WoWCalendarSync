@@ -189,11 +189,13 @@ function CalendarSync:RequestEventDescriptions(clubName, index)
     self.currentEventRequestClubName = clubName
 
     local event = self.db.profile.calendars[self.currentEventRequestClubName].events[self.currentEventRequestIndex]
+    if not event then
+        return
+    end
     local eventIndexInfo = C_Calendar.GetEventIndexInfo(event.eventID)
     self:PrintDebugMessage("Requesting " .. event.eventID .. " - " .. event.title)
 
     C_Calendar.OpenEvent(eventIndexInfo.offsetMonths, eventIndexInfo.monthDay, eventIndexInfo.eventIndex)
-    self.eventRequestInProgress = true
 end
 
 function CalendarSync:StopEventDescriptionRequests()
