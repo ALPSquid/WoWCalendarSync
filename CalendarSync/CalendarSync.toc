@@ -1,10 +1,10 @@
 ## Interface: 80300
 ## Title: Calendar Sync
 ## Author: Andy Palmer (Aerthok - Defias Brotherhood EU)
-## Notes: Half of a Google Calendar sync.
+## Notes: AddOn half of the CalendarSync addon/client.
 ## Version: 1.0.0
 ## SavedVariables: CalendarSyncDB
-## Dependencies: Blizzard_Communities
+## Dependencies: Blizzard_Communities, Blizzard_Calendar
 
 embeds.xml
 CalendarSync.lua

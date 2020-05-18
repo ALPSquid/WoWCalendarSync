@@ -5,7 +5,7 @@
 
 local _, ns = ...
 
-local CalendarSync = LibStub("AceAddon-3.0"):NewAddon("Calendar Sync", "AceConsole-3.0", "AceTimer-3.0", "AceEvent-3.0")
+local CalendarSync = LibStub("AceAddon-3.0"):NewAddon("Calendar Sync", "AceConsole-3.0", "AceTimer-3.0", "AceEvent-3.0", "AceHook-3.0")
 ns.CalendarSync = CalendarSync
 
 SYNC_DELAY = 5
@@ -52,7 +52,19 @@ function CalendarSync:OnEnable()
     self:RegisterEvent("CALENDAR_OPEN_EVENT", self.OnEventOpened, self)
     self:RegisterEvent("CALENDAR_ACTION_PENDING", self.OnActionPending, self)
 
-    CalendarSync:ScheduleCalendarSync()
+    CalendarFrame:HookScript("OnShow", function(_)
+        CalendarSync:PrintDebugMessage("Calendar frame shown.")
+        CalendarSync.calendarFrameShown = true
+        CalendarSync:CancelSync()
+    end)
+
+    CalendarFrame:HookScript("OnHide", function(_)
+        CalendarSync:PrintDebugMessage("Calendar frame hidden.")
+        CalendarSync.calendarFrameShown = false
+        self:ScheduleCalendarSync()
+    end)
+
+    self:ScheduleCalendarSync()
 end
 
 function CalendarSync:OnDisable()
@@ -62,10 +74,16 @@ function CalendarSync:OnDisable()
     self:UnregisterEvent("CALENDAR_UPDATE_GUILD_EVENTS")
     self:UnregisterEvent("CALENDAR_OPEN_EVENT")
     self:UnregisterEvent("CALENDAR_ACTION_PENDING")
+
+    CalendarFrame:UnhookAll()
 end
 
 function CalendarSync:CalendarSyncCommand()
     self.UI:Show()
+end
+
+function CalendarSync:CanSync()
+    return not self.calendarFrameShown
 end
 
 function CalendarSync:ScheduleCalendarSync()
@@ -74,6 +92,13 @@ function CalendarSync:ScheduleCalendarSync()
     end
 
     self.activeSyncTimer = self:ScheduleTimer(self.SyncCalendar, SYNC_DELAY, self)
+end
+
+function CalendarSync:CancelSync()
+    if self.activeSyncTimer ~= nil then
+        self:CancelTimer(self.activeSyncTimer)
+    end
+    self:StopEventDescriptionRequests()
 end
 
 --region Utils
@@ -143,6 +168,10 @@ end
 --endregion
 
 function CalendarSync:SyncCalendar()
+    if not self:CanSync() then
+        self:PrintAddOnMessage("CanSync() returned false. Skipping calendar sync.")
+        return
+    end
     self:PrintAddOnMessage("Running calendar sync")
     self:StopEventDescriptionRequests()
 
