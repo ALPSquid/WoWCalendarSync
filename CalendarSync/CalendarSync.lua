@@ -169,7 +169,7 @@ end
 
 function CalendarSync:SyncCalendar()
     if not self:CanSync() then
-        self:PrintAddOnMessage("CanSync() returned false. Skipping calendar sync.")
+        self:PrintDebugMessage("CanSync() returned false. Skipping calendar sync.")
         return
     end
     self:PrintAddOnMessage("Running calendar sync")
