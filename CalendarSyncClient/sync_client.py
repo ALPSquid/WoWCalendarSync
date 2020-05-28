@@ -139,6 +139,7 @@ class SyncClient(object):
                         event_comparison = service.compare_events(addon_event, remote_event)
                         if event_comparison is event_comparison.UPDATED:
                             event_exists = True
+                            print("\nUpdating event: {0}.".format(service.event_tostring(remote_event)))
                             service.update_event(cal_id, remote_event, addon_event)
                             break
 

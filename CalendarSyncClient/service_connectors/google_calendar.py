@@ -104,7 +104,7 @@ class GoogleCalendarServiceConnector(ServiceConnector):
             "summary": addon_event["title"],
             "description": "{0} {1} {2}".format(addon_event["description"], CREATED_BY_STRING, addon_event["creator"]),
         }
-        self.api.events().patch(calendarId=calendar_id, event_id=remote_event["id"], body=event_data).execute()
+        self.api.events().patch(calendarId=calendar_id, eventId=remote_event["id"], body=event_data).execute()
 
     @requires_google_auth
     def get_events(self, calendar_id: CalendarID, lookahead_days: int) -> Sequence[RemoteEvent]:
