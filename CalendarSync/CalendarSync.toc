@@ -2,7 +2,7 @@
 ## Title: Calendar Sync
 ## Author: Andy Palmer (Aerthok - Defias Brotherhood EU)
 ## Notes: AddOn half of the CalendarSync addon/client.
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariables: CalendarSyncDB
 ## Dependencies: Blizzard_Communities, Blizzard_Calendar
 
