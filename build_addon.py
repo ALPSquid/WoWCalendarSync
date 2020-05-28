@@ -5,30 +5,36 @@ import zipfile
 
 addon_name = "CalendarSync"
 addon_root_folder = "CalendarSync"
-builds_folder = "Builds"
-extra_archive_files = ["CHANGELOG.md", "LICENSE.txt"]
+build_folder = "build/addon"
+extra_archive_files = ["CHANGELOG.md"] #, "LICENSE.txt"]
 
-version_num = 0
 
-with open(os.path.join(addon_root_folder, "CalendarSync.toc"), 'r') as toc_file:
-    for line in toc_file:
-        if "## Version:" in line:
-            version_num = line.split()[2]
+def build():
+    """Package the addon to a folder and return the output path."""
+    version_num = 0
 
-print("Building version " + version_num)
+    with open(os.path.join(addon_root_folder, "CalendarSync.toc"), 'r') as toc_file:
+        for line in toc_file:
+            if "## Version:" in line:
+                version_num = line.split()[2]
 
-release_folder = os.path.join(builds_folder, version_num)
-release_zip_path = os.path.join(release_folder, addon_name + "_" + version_num)
+    print("Building AddOn version " + version_num)
 
-if not os.path.exists("Builds"):
-    os.mkdir("Builds")
+    base_release_folder = os.path.join(build_folder, version_num)
+    release_zip_path = os.path.join(base_release_folder, addon_name + "_" + version_num)
+    release_folder_path = os.path.join(base_release_folder, addon_name)
 
-if os.path.isfile(release_zip_path):
-    os.rm(release_zip_path)
-    
-shutil.make_archive(release_zip_path, "zip", os.path.join(addon_root_folder, os.pardir), addon_root_folder)
-# Add changelog and license
-archive_file = zipfile.ZipFile(release_zip_path+".zip", 'a')
-for extra_file in extra_archive_files:
-    archive_file.write(extra_file, os.path.join(addon_root_folder, os.path.basename(extra_file)))
-archive_file.close()
+    if os.path.exists(base_release_folder):
+        shutil.rmtree(base_release_folder)
+
+    shutil.copytree(addon_root_folder, release_folder_path)
+    for extra_file in extra_archive_files:
+        shutil.copy(os.path.join(addon_root_folder, extra_file), os.path.join(release_folder_path, extra_file))
+
+    shutil.make_archive(release_zip_path, "zip", os.path.join(release_folder_path, os.pardir), os.path.basename(release_folder_path))
+
+    return base_release_folder
+
+
+if __name__ == "__main__":
+    build()
