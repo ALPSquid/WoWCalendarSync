@@ -16,7 +16,7 @@ from watchdog.observers import Observer
 
 from service_connectors import ServiceConnector, AddonEvent
 
-VERSION = "1.0"
+VERSION = "1.0.0"
 
 logging.basicConfig(format="%(name)s:%(levelname)s: %(message)s", level=logging.WARNING)
 CONFIG_PATH = "options.ini"
