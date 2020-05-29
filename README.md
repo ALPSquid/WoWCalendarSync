@@ -15,8 +15,8 @@ A combination AddOn and client that exports calendar events from World of Warcra
     * **Google Calendar** - This will create a new calendar with the name of your guild on your account specifically for Guild events.
 
 ## Requirements
-**If using a packaged build** (Coming soon):
-* Download the latest release from [releases](https://github.com/ALPSquid/WoWCalendarSync/releases) and unzip somewhere.
+**If using a packaged build**:
+* Download the latest Client and AddOn zip files from [releases](https://github.com/ALPSquid/WoWCalendarSync/releases) and see [Usage](#usage) for setup instructions. The latest release on GitHub has both the latest Client and AddOn builds in the file list, named **CalendarSyncClient\_\<version\>.zip** and **CalendarSync\_\<version\>.zip** respectively.
 
 **If running from source**:
  * Python 3.8+
@@ -29,8 +29,8 @@ A combination AddOn and client that exports calendar events from World of Warcra
         * google-auth-oauthlib
 
 ## Usage
-1. Copy the **CalendarSync** folder to **World of Warcraft\\\_retail_\Interface\AddOns** and run the game once for the calendar to sync. 
-2. In the **CalendarSyncClient** folder, update your **options.ini** file as described in the [Client Config](#client-config) section of this ReadMe.
+1. Unzip the **CalendarSync** folder from the latest AddOn zip file to **World of Warcraft\\\_retail_\Interface\AddOns** and run the game once for the calendar to sync. 
+2. Unzip the **CalendarSyncClient** folder from the latest client zip file, update your **options.ini** file as described in the [Client Config](#client-config) section of this ReadMe.
 3. Run the **CalendarSyncClient.exe** (or sync_client.py from within the CalendarSyncClient folder if running from source). It will automatically watch the AddOn data file and sync when changes are detected.
 
 ## Client Config
