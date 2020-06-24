@@ -253,6 +253,7 @@ function CalendarSync:OnActionPending(_, pending)
             self:RequestEventDescriptions(self.currentEventRequestClubName, self.currentEventRequestIndex + 1)
         else
             self:StopEventDescriptionRequests()
+            self:PrintAddOnMessage("Sync complete, /reload to update saved data for the client.")
         end
     end
 end

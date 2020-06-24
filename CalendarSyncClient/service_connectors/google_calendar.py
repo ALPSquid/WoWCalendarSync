@@ -8,6 +8,7 @@ import pytz
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from . import ServiceConnector, CalendarID, EventComparisonResult, RemoteEvent, AddonEvent
 
@@ -107,11 +108,18 @@ class GoogleCalendarServiceConnector(ServiceConnector):
         self.api.events().patch(calendarId=calendar_id, eventId=remote_event["id"], body=event_data).execute()
 
     @requires_google_auth
+    def get_event(self, calendar_id: CalendarID, addon_event: AddonEvent) -> RemoteEvent or None:
+        try:
+            return self.api.events().get(calendarId=calendar_id, eventId=addon_event["eventID"]).execute()
+        except HttpError:
+            return None
+
+    @requires_google_auth
     def get_events(self, calendar_id: CalendarID, lookahead_days: int) -> Sequence[RemoteEvent]:
         now = datetime.utcnow().isoformat() + "Z"
         events = self.api.events().list(calendarId=calendar_id, timeMin=now,
                                         # Assume max of 10 events a day for results
-                                        maxResults=lookahead_days*10, singleEvents=True,
+                                        maxResults=lookahead_days * 10, singleEvents=True,
                                         orderBy="startTime").execute()
         return events.get("items")
 

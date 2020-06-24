@@ -108,7 +108,7 @@ class SyncClient(object):
         self.sync_in_progress = True
         addon_data_file_path = self._addon_data_path
 
-        with open(addon_data_file_path, "r") as data_file:
+        with open(addon_data_file_path, "r", encoding="utf-8") as data_file:
             combined_lines = str.join("", data_file.readlines())
             # Ensure data is contained in an object.
             if combined_lines[0] != "{":

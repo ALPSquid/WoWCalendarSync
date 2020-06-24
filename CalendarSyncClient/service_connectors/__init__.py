@@ -84,6 +84,11 @@ class ServiceConnector(metaclass=ABCMeta):
         ...
 
     @abstractmethod
+    def get_event(self, calendar_id: CalendarID, addon_event: AddonEvent) -> RemoteEvent or None:
+        """Get the remote event for an addon event, or None if it doesn't exist."""
+        ...
+
+    @abstractmethod
     def get_events(self, calendar_id: CalendarID, lookahead_days: int) -> Sequence[RemoteEvent]:
         ...
 
