@@ -177,12 +177,14 @@ function CalendarSync:SyncCalendar()
 
     -- TODO: Sync all clubs. Option to disable certain ones in sync app or addon config.
     local guildName = C_Club.GetClubInfo(C_Club.GetGuildClubId()).name
-    local currentServerTime = C_DateAndTime.GetCurrentCalendarTime()
-    local upcomingEvents = C_Calendar.GetClubCalendarEvents(C_Club.GetGuildClubId(), currentServerTime, C_DateAndTime.AdjustTimeByDays(currentServerTime, self.db.profile.lookaheadDays))
+    self.lastSyncCalendarTime = C_DateAndTime.GetCurrentCalendarTime()
+    self.lastSyncUTCTimestamp = CalendarSync:CalendarTimeToUTCTimestamp(self.lastSyncCalendarTime)
+    local upcomingEvents = C_Calendar.GetClubCalendarEvents(C_Club.GetGuildClubId(), self.lastSyncCalendarTime, C_DateAndTime.AdjustTimeByDays(self.lastSyncCalendarTime, self.db.profile.lookaheadDays))
 
     if self.db.profile.calendars[guildName] == nil then
-        self.db.profile.calendars[guildName] = {}
+        self.db.profile.calendars[guildName] = {events = {}}
     end
+    self.lastSyncEvents = self.db.profile.calendars[guildName].events
     self.db.profile.calendars[guildName].events = {}
 
     for _, event in ipairs(upcomingEvents) do
@@ -252,8 +254,49 @@ function CalendarSync:OnActionPending(_, pending)
         if self.currentEventRequestIndex < #self.db.profile.calendars[self.currentEventRequestClubName].events then
             self:RequestEventDescriptions(self.currentEventRequestClubName, self.currentEventRequestIndex + 1)
         else
+            self:PrintAddOnMessage("Sync complete.")
+            -- Notify if event data has changed.
+            local dataChanged = false
+            for _, newEvent in ipairs(self.db.profile.calendars[self.currentEventRequestClubName].events) do
+                local isNewEvent = true
+                local hasNewDescription = false
+                for _, event in ipairs(self.lastSyncEvents) do
+                    if newEvent.eventID == event.eventID then
+                        isNewEvent = false
+                        if newEvent.description ~= event.description then
+                            hasNewDescription = true
+                            break
+                        end
+                    end
+                end
+                if isNewEvent or hasNewDescription then
+                    dataChanged = true
+                    self:PrintAddOnMessage("New events added or descriptions updated, /reload to save data for the client.")
+                    break
+                end
+            end
+
+            -- Deleted events.
+            if not dataChanged then
+                for _, event in ipairs(self.lastSyncEvents) do
+                    if event.startTime >= self.lastSyncUTCTimestamp then
+                        local isDeleted = true
+                        for _, newEvent in ipairs(self.db.profile.calendars[self.currentEventRequestClubName].events) do
+                            if event.eventID == newEvent.eventID then
+                                isDeleted = false
+                                break
+                            end
+                        end
+                        if isDeleted then
+                            dataChanged = true
+                            self:PrintAddOnMessage("Existing event deleted, /reload to save data for the client.")
+                            break
+                        end
+                    end
+                end
+            end
+
             self:StopEventDescriptionRequests()
-            self:PrintAddOnMessage("Sync complete, /reload to update saved data for the client.")
         end
     end
 end
