@@ -21,6 +21,7 @@ def requires_google_auth(f):
     """ Decorator for methods requiring google OAuth authorisation.
     "credentials" and "api" will be set on the calling object.
     """
+
     @wraps(f)
     def wrapper(service_connector: ServiceConnector, *args, **kwargs):
         reauth_required = False
@@ -128,8 +129,9 @@ class GoogleCalendarServiceConnector(ServiceConnector):
         # For now, we'll stick with this and assume the user complies with the no remote changes policy.
         # The alternative is to compare times and titles, which allows reuse but is messier and
         # may result in incorrect results when updating or removing events.
-        if int(addon_event["eventID"]) == int(remote_event["id"]):
-            if addon_event["description"].strip() == remote_event["description"].split(CREATED_BY_STRING)[0].strip():
+        if addon_event["eventID"].strip() == remote_event["id"].strip():
+            if addon_event["description"].strip() == remote_event["description"].split(CREATED_BY_STRING)[0].strip() \
+                    and addon_event["title"].strip() == remote_event["summary"].strip():
                 return EventComparisonResult.EQUAL
             else:
                 return EventComparisonResult.UPDATED

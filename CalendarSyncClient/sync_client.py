@@ -4,7 +4,6 @@ import logging
 import os
 import threading
 import time
-from collections.abc import Sequence
 from datetime import datetime
 from sys import exit
 from typing import List
@@ -30,6 +29,7 @@ class SyncClient(object):
         self.active_sync_timer = None
         self.sync_in_progress = False
 
+        self.data_path = os.path.join("data", "core")
         self.service_connectors: List[ServiceConnector] = []
         self.config = configparser.ConfigParser()
         self.config.read(CONFIG_PATH)
@@ -119,7 +119,7 @@ class SyncClient(object):
         addon_calendars = addon_data["CalendarSyncDB"]["profiles"]["Default"]["calendars"]
         for calendar_name, addon_calendar_data in addon_calendars.items():
             print("Found in-game calendar: {0}".format(calendar_name))
-            addon_events = addon_calendar_data["events"]  # type: Sequence[AddonEvent]
+            addon_events = addon_calendar_data["events"]  # type: List[AddonEvent]
 
             for service in self.service_connectors:
                 print("Updating service: {0}".format(service.service_name))
@@ -134,6 +134,8 @@ class SyncClient(object):
                 remote_events = service.get_events(cal_id, lookahead_days)
                 # New/updated events.
                 for addon_event in addon_events:
+                    # Ensure we're using IDs as strings for sub-id support.
+                    addon_event["eventID"] = str(addon_event["eventID"])
                     event_exists = False
                     for remote_event in remote_events:
                         event_comparison = service.compare_events(addon_event, remote_event)
@@ -148,6 +150,18 @@ class SyncClient(object):
                             break
 
                     if not event_exists:
+                        # Hacky check to catch WoW reusing old event IDs and to support external events to be created without ID conflicts.
+                        # TODO [Duplicate IDs]: Think of a cleaner way to support this behaviour in the sync.
+                        existing_event = service.get_event(cal_id, addon_event)
+                        if existing_event is not None:
+                            print("EventID for {0} - {1} @ {2} has been reused, manually forcing a new ID.".format(
+                                addon_event["eventID"],
+                                addon_event["title"],
+                                datetime.fromtimestamp(addon_event["startTime"]).isoformat()))
+                            addon_event["eventID"] = service.create_subID(addon_event, existing_event)
+                            addon_events.append(addon_event)
+                            continue
+
                         start_datetime = datetime.fromtimestamp(addon_event["startTime"], tz=pytz.utc)
                         end_datetime = datetime.fromtimestamp(addon_event["endTime"], tz=pytz.utc)
                         description = addon_event["description"] if "description" in addon_event else "null"

@@ -19,7 +19,7 @@ AddonEvent = NewType("AddonEvent", Mapping[str, Any])
 ["title"] = "Some Title",
 ["startTime"] = 1000000000,
 ["endTime"] = 1000000000,
-["eventID"] = 1111111,
+["eventID"] = "1111111",
 ["creator"] = "Player Name",
 ["description"] = "Event description",
 """
@@ -101,3 +101,15 @@ class ServiceConnector(metaclass=ABCMeta):
     def event_tostring(self, remote_event: RemoteEvent) -> str:
         """Return a string representation of the specified remote event from get_events."""
         ...
+
+    def create_subID(self, addon_event: AddonEvent, existing_remote_event: RemoteEvent) -> str:
+        """
+        For resolving reused/existing IDs:
+        Return a new ID to use for the addon_event as the existing_remote_event already has this ID.
+        Note: The behaviour of this must be consistent as addon data will always return the old ID and this method
+        needs to return the same subID every time.
+        This method will be called in sequence until a unique ID is found, so no need to check it is unique here.
+
+        Override to implement service specific behaviour.
+        """
+        return addon_event["eventID"] + "a"
