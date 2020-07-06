@@ -102,7 +102,7 @@ class ServiceConnector(metaclass=ABCMeta):
         """Return a string representation of the specified remote event from get_events."""
         ...
 
-    def create_subID(self, addon_event: AddonEvent, existing_remote_event: RemoteEvent) -> str:
+    def create_subid(self, addon_event: AddonEvent, existing_remote_event: RemoteEvent) -> str:
         """
         For resolving reused/existing IDs:
         Return a new ID to use for the addon_event as the existing_remote_event already has this ID.

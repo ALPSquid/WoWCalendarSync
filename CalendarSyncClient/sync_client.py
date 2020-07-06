@@ -158,7 +158,7 @@ class SyncClient(object):
                                 addon_event["eventID"],
                                 addon_event["title"],
                                 datetime.fromtimestamp(addon_event["startTime"]).isoformat()))
-                            addon_event["eventID"] = service.create_subID(addon_event, existing_event)
+                            addon_event["eventID"] = service.create_subid(addon_event, existing_event)
                             addon_events.append(addon_event)
                             continue
 
