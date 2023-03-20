@@ -1,3 +1,6 @@
+## 1.0.5
+* Updated for patch 10.0.7
+* 
 ## 1.0.4
 * Updated for patch 10.0.2
 
