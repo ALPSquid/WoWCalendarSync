@@ -1,8 +1,8 @@
-## Interface: 100007
+## Interface: 100200
 ## Title: Calendar Sync
 ## Author: Andy Palmer (Aerthok - Defias Brotherhood EU)
 ## Notes: AddOn half of the CalendarSync addon/client.
-## Version: 1.0.5
+## Version: 1.0.6
 ## SavedVariables: CalendarSyncDB
 ## Dependencies: Blizzard_Communities, Blizzard_Calendar
 
