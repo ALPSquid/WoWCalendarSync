@@ -1,26 +1,20 @@
 ------------------------------------------------------------------------
-r1313 | funkehdude | 2023-11-08 01:36:37 +0000 (Wed, 08 Nov 2023) | 1 line
+r1352 | funkehdude | 2024-07-24 18:29:31 +0000 (Wed, 24 Jul 2024) | 1 line
+Changed paths:
+   M /trunk/.luacheckrc
+
+Update luacheck
+------------------------------------------------------------------------
+r1351 | funkehdude | 2024-07-24 18:23:24 +0000 (Wed, 24 Jul 2024) | 1 line
+Changed paths:
+   M /trunk/AceConfig-3.0/AceConfigDialog-3.0/AceConfigDialog-3.0.lua
+
+AceConfigDialog-3.0: Don't change keyboard input propagation in combat when showing the popup
+------------------------------------------------------------------------
+r1350 | funkehdude | 2024-07-24 17:55:50 +0000 (Wed, 24 Jul 2024) | 1 line
 Changed paths:
    M /trunk/Ace3.toc
 
-bump toc
-------------------------------------------------------------------------
-r1312 | funkehdude | 2023-10-11 09:50:14 +0000 (Wed, 11 Oct 2023) | 1 line
-Changed paths:
-   M /trunk/Ace3_Wrath.toc
-
-bump toc
-------------------------------------------------------------------------
-r1311 | funkehdude | 2023-09-10 15:29:49 +0000 (Sun, 10 Sep 2023) | 1 line
-Changed paths:
-   M /trunk/Ace3.toc
-
-bump toc
-------------------------------------------------------------------------
-r1310 | funkehdude | 2023-08-18 12:21:18 +0000 (Fri, 18 Aug 2023) | 1 line
-Changed paths:
-   M /trunk/Ace3_Vanilla.toc
-
-bump toc
+Restore old toc versions, these are here purely to compensate for bad addon updaters, we don't actually care if we fully support these versions of wow
 ------------------------------------------------------------------------
 

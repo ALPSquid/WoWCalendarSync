@@ -75,5 +75,5 @@ CalendarSyncUI.optionsFrameRoot = LibStub("AceConfigDialog-3.0"):AddToBlizOption
 CalendarSync.UI = CalendarSyncUI
 
 function CalendarSyncUI:Show()
-    InterfaceOptionsFrame_OpenToCategory(self.optionsFrameRoot)
+    Settings.OpenToCategory(self.optionsFrameRoot.name)
 end
