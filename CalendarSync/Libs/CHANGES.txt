@@ -1,4 +1,43 @@
 ------------------------------------------------------------------------
+r1357 | funkehdude | 2025-01-23 06:13:10 +0000 (Thu, 23 Jan 2025) | 1 line
+Changed paths:
+   M /trunk/Ace3.toc
+
+bump toc
+------------------------------------------------------------------------
+r1356 | nevcairiel | 2024-12-05 06:15:30 +0000 (Thu, 05 Dec 2024) | 1 line
+Changed paths:
+   M /trunk
+   M /trunk/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
+
+AceGUI-3.0: TreeGroup: Re-factor button hiding to help avoid bizarre button breakage
+------------------------------------------------------------------------
+r1355 | funkehdude | 2024-11-20 01:54:56 +0000 (Wed, 20 Nov 2024) | 1 line
+Changed paths:
+   M /trunk/Ace3.toc
+
+bump toc
+------------------------------------------------------------------------
+r1354 | funkehdude | 2024-09-10 14:01:06 +0000 (Tue, 10 Sep 2024) | 1 line
+Changed paths:
+   M /trunk/Ace3.toc
+
+bump toc
+------------------------------------------------------------------------
+r1353 | nevcairiel | 2024-08-27 13:37:35 +0000 (Tue, 27 Aug 2024) | 8 lines
+Changed paths:
+   M /trunk
+   M /trunk/AceDB-3.0/AceDB-3.0.lua
+
+AceDB-3.0: Handle unloaded namespaces in Reset/Copy/Delete functions
+
+When applying profile changes to namespaces, we should also handle
+namespaces that are not currently loaded.
+
+These may be from optional Load-on-Demand parts that are not currently
+loaded, but the expectation is that the database behaves consistent
+no matter what is currently active.
+------------------------------------------------------------------------
 r1352 | funkehdude | 2024-07-24 18:29:31 +0000 (Wed, 24 Jul 2024) | 1 line
 Changed paths:
    M /trunk/.luacheckrc
